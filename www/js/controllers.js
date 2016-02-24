@@ -147,13 +147,14 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
 
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
     $scope.message="Loading ...";
     $scope.popover = {};
+    $scope.comment = {};
 
     $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
       .$promise.then(
@@ -165,6 +166,12 @@ angular.module('conFusion.controllers', [])
           $scope.message = "Error: "+response.status + " " + response.statusText;
         }
       );
+
+
+    $scope.addFavorite = function(index) {
+      favoriteFactory.addToFavorites(index);
+      $scope.closePopover();
+    };
 
     $ionicPopover.fromTemplateUrl('templates/dish-detail-popover.html', {
       scope: $scope
@@ -191,6 +198,31 @@ angular.module('conFusion.controllers', [])
     $scope.$on('popover.removed', function() {
       // Execute action
     });
+
+    $ionicModal.fromTemplateUrl('templates/dish-comment.html',{
+      scope: $scope
+    }).then(function(modal){
+      $scope.comment = modal;
+    });
+
+
+    $scope.addComment = function(){
+      $scope.comment.show();
+    };
+
+    $scope.closeComment = function() {
+      $scope.comment.hide();
+      $scope.closePopover();
+    };
+
+    $scope.commit = function() {
+      console.log('Doing reservation', $scope.comment);
+
+      $timeout(function(){
+        $scope.closeComment();
+      },1000);
+    }
+
 
   }])
 
