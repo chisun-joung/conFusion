@@ -147,7 +147,7 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal','DishCommentController', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
 
 
     $scope.baseURL = baseURL;
