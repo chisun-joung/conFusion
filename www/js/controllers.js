@@ -216,7 +216,7 @@ angular.module('conFusion.controllers', [])
       $scope.closePopover();
     };
 
-    $scope.commit = function() {
+    $scope.submit = function() {
       console.log('Doing reservation', $scope.comment);
 
       $timeout(function(){
