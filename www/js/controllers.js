@@ -149,6 +149,7 @@ angular.module('conFusion.controllers', [])
 
   .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
 
+
     $scope.baseURL = baseURL;
     $scope.dish = {};
     $scope.showDish = false;
@@ -167,8 +168,8 @@ angular.module('conFusion.controllers', [])
         }
       );
 
-
-    $scope.addFavorite = function(index) {
+    $scope.addFavorite = function(index){
+      console.log('DishDetail' + index);
       favoriteFactory.addToFavorites(index);
       $scope.closePopover();
     };
