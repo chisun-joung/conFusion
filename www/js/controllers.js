@@ -147,7 +147,7 @@ angular.module('conFusion.controllers', [])
     };
   }])
 
-  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal','DishCommentController', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
+  .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory','baseURL','$ionicPopover','favoriteFactory', '$ionicModal', function($scope, $stateParams, menuFactory, baseURL, $ionicPopover,favoriteFactory,$ionicModal) {
 
 
     $scope.baseURL = baseURL;
@@ -156,7 +156,7 @@ angular.module('conFusion.controllers', [])
     $scope.message="Loading ...";
     $scope.popover = {};
     $scope.comment = {};
-
+    $scope.mycomment = {rating:5, comment:"", author:"", date:""};
     $scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)})
       .$promise.then(
         function(response){
@@ -216,12 +216,21 @@ angular.module('conFusion.controllers', [])
       $scope.closePopover();
     };
 
-    $scope.submit = function() {
-      console.log('Doing reservation', $scope.comment);
 
-      $timeout(function(){
-        $scope.closeComment();
-      },1000);
+
+    $scope.submitComment = function () {
+
+      $scope.mycomment.date = new Date().toISOString();
+      console.log($scope.mycomment);
+
+      $scope.dish.comments.push($scope.mycomment);
+      menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
+
+      //$scope.commentForm.$setPristine();
+
+      $scope.mycomment = {rating:5, comment:"", author:"", date:""};
+
+      $scope.closeComment();
     }
 
 
